@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+<script src="./d3.v3.js"></script>
+<script src="./underscore.js"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// 2013-06-25T19:13:59.123916
+var parseDate = d3.time.format.iso.parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("top");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x( parseDate( d.time ) ); })
+    .y(function(d) { return y( d.points ); });
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("../logger/points-all.json", function(error, data) {
+
+  kissa = data;
+
+  // todo: fixme
+  _d = data['JAHugawa'].data;
+  x.domain( d3.extent(_d, function(d) { return parseDate(d.time); }));
+  y.domain( [0,3] );
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      // .attr("transform", "translate(0,100)")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+  // TODO: clean!
+
+  _.map( data , function(data,key) {
+    console.log( key );
+    console.log( data );
+    svg.append("path")
+        .datum(data.data)
+        .attr("class", "line")
+        .attr("stroke", data.group)
+        .attr("d", line);
+    });
+});
+
+</script>
