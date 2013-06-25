@@ -1,32 +1,28 @@
-FILE = 'points-all.json'
-URL = 'http://tmc.mooc.fi/mooc/courses/13/points.csv'
+FILE = '../data/points-all.json'
+URL = 'http://tmc.mooc.fi/mooc/courses/15/points.csv'
 
 import json
-import datetime
 import csv
 import urllib2
 
 import common as c
 
-all_data = json.load( open( FILE, 'r') )
+## load previous data if needed
+try:
+	data = json.load( open( FILE, 'r') )
+except IOError:
+	data = {}
 
-data = csv.DictReader( urllib2.urlopen( URL ) )
+web = csv.DictReader( urllib2.urlopen( URL ) )
 
-out = {
-	'time' : datetime.datetime.now().isoformat(),
-	'data' : []
-}
+for line in web:
+	username = line['Username'];
+	if username not in data:
+		data[ username ] = {
+			'group' : c.group( line['Username'] ),
+			'data' : []
+		}
+	d = { 'time' : c.now(), 'points' : int( line['Total'] ) }
+	data[username]['data'].append( d )
 
-for line in data:
-	d = {
-		'username' : line['Username'],
-		'group' : c.group( line['Username'] ),
-		'points' : line['Total']
-	}
-	out['data'].append( d )
-
-all_data.append( out )
-
-print all_data
-
-json.dump( all_data, open( FILE, 'w') )
+json.dump( data, open( FILE, 'w') )
