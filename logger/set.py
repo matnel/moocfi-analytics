@@ -1,5 +1,9 @@
-FILE = 'points-week1.json'
-URL = 'http://tmc.mooc.fi/mooc/courses/15/points/1?layout=0'
+import sys
+
+s = sys.argv[1]
+
+FILE = '../data/points-set' + s + '.json'
+URL = 'http://tmc.mooc.fi/mooc/courses/15/points/' + s + '?layout=0'
 
 from bs4 import BeautifulSoup
 import urllib2
@@ -33,4 +37,4 @@ for s in table.find_all('tr', 'student'):
 	data[color].append( tasks )
 	data['_' + username] = d
 
-print json.dumps( data )
+json.dump( data , open( FILE, 'w' ) )
