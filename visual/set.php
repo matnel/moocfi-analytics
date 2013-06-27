@@ -46,7 +46,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .tickFormat(d3.format(".2s"));
+    .tickFormat(d3.format(""));
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -89,7 +89,7 @@ d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
       .attr("width", "10")
       .attr("y", y(d) )
       .attr("height", y(0) - y(d) )
-      .style("fill", "blue");
+      .style("fill", "<?= $_GET['color']; ?>");
   } );
 
 });
