@@ -54,9 +54,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("../data/set1.json", function(error, data) {
-
-  kissa = data;
+d3.json("../data/points-set1.json", function(error, data) {
 
   data = data.green;
   sums = [];
@@ -91,9 +89,12 @@ d3.json("../data/set1.json", function(error, data) {
       .attr("width", "10")
       .attr("y", y(d) )
       .attr("height", y(0) - y(d) )
-      .style("fill", "pink");
+      .style("fill", "blue");
   } );
 
 });
 
 </script>
+
+</body>
+</html>
