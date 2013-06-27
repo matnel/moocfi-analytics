@@ -55,14 +55,26 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("../logger/points-all.json", function(error, data) {
+d3.json("../data/points-all.json", function(error, data) {
 
-  kissa = data;
+  console.log(data);
 
   // todo: fixme
   _d = data['JAHugawa'].data;
   x.domain( d3.extent(_d, function(d) { return parseDate(d.time); }));
-  y.domain( [0,3] );
+
+  // UGLY!
+  var max = 0;
+  for ( i in data ) {
+    var temp = data[i].data.length - 1;
+    temp = data[i].data[ temp ];
+    temp = temp.points;
+    if( temp > max ) {
+      max = temp;
+    }
+  };
+
+  y.domain( [ 0, max + 0.5] );
 
   svg.append("g")
       .attr("class", "x axis")
