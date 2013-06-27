@@ -54,9 +54,9 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("../data/points-set1.json", function(error, data) {
+d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
 
-  data = data.green;
+  data = data["<?= $_GET['color']; ?>"];
   sums = [];
   data[0].forEach(function(i){
     sums.push(0);
