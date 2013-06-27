@@ -18,10 +18,8 @@ web = csv.DictReader( urllib2.urlopen( URL ) )
 for line in web:
 	username = line['Username'];
 	if username not in data:
-		data[ username ] = {
-			'group' : c.group( line['Username'] ),
-			'data' : []
-		}
+		data[ username ] = { 'data' : [] }
+	data[username]['group'] = c.group( line['Username'] )
 	d = { 'time' : c.now(), 'points' : int( line['Total'] ) }
 	data[username]['data'].append( d )
 
