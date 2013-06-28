@@ -57,8 +57,6 @@ var svg = d3.select("body").append("svg")
 
 d3.json("../data/points-all.json", function(error, data) {
 
-  console.log(data);
-
   // todo: fixme
   _d = data['JAHugawa'].data;
   x.domain( d3.extent(_d, function(d) { return parseDate(d.time); }));
@@ -89,8 +87,6 @@ d3.json("../data/points-all.json", function(error, data) {
   // TODO: clean!
 
   _.map( data , function(data,key) {
-    console.log( key );
-    console.log( data );
     svg.append("path")
         .datum(data.data)
         .attr("class", "line")
