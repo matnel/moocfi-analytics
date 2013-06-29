@@ -18,12 +18,23 @@ $().ready( function() {
 			var l = value.data.length - 1;
 			var u1 = value.data[ l ];
 			var u2 = value.data[ l -1 ];
-			if( u1.points == u2.points ) {
+
+			if( u1.points == u2.points ) {				
 				if( $('.' + value.group ).length == 0 ) {
 					var d = $('<ul>', { class : value.group + ' status' });
 					$('body').append( d );
 				}
-				$('.' + value.group ).append( '<li>' + key + '</li>' );
+
+				// stats
+				var count = 1;
+				while( u2.points == u1.points && count < 11 ) {
+					u2 = value.data[ l - count ];
+					count++;
+				}
+
+				if( count == 11 ) count = '10+';
+
+				$('.' + value.group ).append( '<li>' + key + ' (' + count + ')</li>' );
 			}
 		});
 	});
