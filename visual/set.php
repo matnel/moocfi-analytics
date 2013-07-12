@@ -23,7 +23,24 @@ body {
 
 </style>
 <body>
+
 <script src="./d3.v3.js"></script>
+<script src="./jquery.js"></script>
+
+<input id='id' value="<?= $_GET['id']; ?>" /> <input id='color' value="<?= $_GET['color']; ?>" />
+
+<script type="text/javascript">
+$().ready( function() {
+  $('input').change( function() {
+    var _id = $('#id').val()
+    var _color = $('#color').val();
+    var _t = window.location.origin + window.location.pathname;
+    _t += '?id=' + _id + '&color=' + _color;
+    window.location.href = _t;
+  });
+});
+</script>
+
 <script>
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -75,7 +92,7 @@ d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
 
   svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0,150)")
       .call(xAxis);
 
   svg.append("g")
@@ -85,8 +102,8 @@ d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
   sums.forEach( function(d,i) {
     svg.append("rect")
       .datum( d )
-      .attr("x", 15 * i )
-      .attr("width", "10")
+      .attr("x", 10 + 30 * i )
+      .attr("width", "20")
       .attr("y", y(d) )
       .attr("height", y(0) - y(d) )
       .style("fill", "<?= $_GET['color']; ?>");
