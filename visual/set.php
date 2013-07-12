@@ -47,14 +47,11 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var x = d3.scale.ordinal()
-    .rangeRoundBands([0, width], .1);
-
+var x = d3.scale.linear()
+    .rangeRound([5, width]);
+    
 var y = d3.scale.linear()
     .rangeRound([height, 0]);
-
-var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -102,8 +99,8 @@ d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
   sums.forEach( function(d,i) {
     svg.append("rect")
       .datum( d )
-      .attr("x", 10 + 30 * i )
-      .attr("width", "20")
+      .attr("x", x(i) )
+      .attr("width", x(i+1)-x(i) - 7 )
       .attr("y", y(d) )
       .attr("height", y(0) - y(d) )
       .style("fill", "<?= $_GET['color']; ?>");
