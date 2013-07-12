@@ -48,8 +48,8 @@ var margin = {top: 20, right: 20, bottom: 30, left: 40},
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
-    .rangeRound([5, width]);
-    
+    .rangeRound([10, width]);
+
 var y = d3.scale.linear()
     .rangeRound([height, 0]);
 
@@ -89,7 +89,7 @@ d3.json("../data/points-set<?= $_GET['id']; ?>.json", function(error, data) {
 
   svg.append("g")
       .attr("class", "x axis")
-      .attr("transform", "translate(0,150)")
+      .attr("transform", "translate(0,450)")
       .call(xAxis);
 
   svg.append("g")
