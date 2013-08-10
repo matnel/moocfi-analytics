@@ -14,27 +14,41 @@
 $().ready( function() {
 	$.get('../data/points-all.json', function(data) {
 		_.map( data, function(value, key) {
+			if( value.data.length < 2 ) return null;
 			// two last points
+			console.log( value.data );
 			var l = value.data.length - 1;
 			var u1 = value.data[ l ];
 			var u2 = value.data[ l -1 ];
 
+			console.log( u1 );
+			console.log( u2 );
+
 			if( u1.points == u2.points ) {				
 				if( $('.' + value.group ).length == 0 ) {
 					var d = $('<ul>', { class : value.group + ' status' });
+					d.append( '<ul>' + value.group + '</ul>' );
 					$('body').append( d );
 				}
 
 				// stats
 				var count = 1;
-				while( u2.points == u1.points && count < 11 ) {
+				while( u2.points == u1.points && count < value.data.length && count < 120 ) {
 					u2 = value.data[ l - count ];
 					count++;
 				}
 
-				if( count == 11 ) count = '10+';
+				count = count * 2;
 
-				$('.' + value.group ).append( '<li>' + key + ' (' + count + ')</li>' );
+				var li = $('<li>');
+
+				if( count > 30 ) li.css('font-weight', 'bold');
+
+				if( count == 240 ) count = '240+';
+
+				li.html( key + ' (' + count + ' mins)' );
+
+				$('.' + value.group ).append( li );
 			}
 		});
 	});
